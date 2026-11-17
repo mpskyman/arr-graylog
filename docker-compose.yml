@@ -1,0 +1,28 @@
+services:
+  arr-graylog:
+    build: .
+    image: arr-graylog:latest
+    container_name: arr-graylog
+    restart: unless-stopped
+    # All settings come from .env (copy .env.example to .env and fill it in).
+    env_file:
+      - .env
+    # Note: inside the container, GRAYLOG_HOST must be a hostname or IP the
+    # container can reach. "127.0.0.1" points at the container itself.
+    #
+    # If Sonarr, Radarr or Prowlarr run in another compose project or as
+    # plain containers, join their network so the *_URL values can use
+    # container names. Uncomment and set the network name, and add the
+    # network under the top-level `networks:` key below.
+    # networks:
+    #   - arr
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+# networks:
+#   arr:
+#     external: true
+#     name: arr_default
